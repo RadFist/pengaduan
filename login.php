@@ -130,7 +130,7 @@ body {
 			}
 
 		} else {
-			echo "username/password salah!";
+			header("location:login.php?error");
 		}
 	}
 	?>
@@ -139,6 +139,15 @@ body {
 			<img src="img/avatar.png" alt="Avatar">
 		</div>
         <h2 class="text-center">Form login</h2>
+		<!-- logout error handling -->
+		<?php 
+		if(isset($_GET["error"])){ 
+			?>
+		<div class="bg-danger text-white text-center p-2 mb-2">
+			EMAIL ATAU PASSWORD SALAH
+		</div>
+		<?php } ?>
+
         <div class="form-group">
         	<input type="text" class="form-control" name="user" placeholder="Username" required="required">
         </div>

@@ -48,10 +48,12 @@ border-top: 1px solid #ececec;
 	</a>
 </li>
 <li>
+	<?php if(@$_SESSION["user"]){ ?>
 	<a href="post_user.php" title="">
 		<span><img src="images/icon9.png" alt=""></span>
 		Postingan
 	</a>
+	<?php } ?>	
 </li>
 </ul>
 </nav><!--nav end-->

@@ -72,20 +72,18 @@ if(@$_SESSION["admin"] || @$_SESSION["user"]) {
 				<div class="post_topbar">
 					<div class="usy-dt">
 						<?php
-						if(@$_SESSION["user"]) {
+					
 							if ($ta["foto"] != "") {
 								 echo "<img src='foto/".$ta["foto"]."' width='50' height='50'/>";
 							} else {
 								echo "<img src='../img/avatar.png' width='50' height='50'/>";
 							}
-						} 
-						?>		
+						
+						?>	
 						<div class="usy-name">
 							<h3>
 								<?php
-								if(@$_SESSION["user"]) {
 									echo $ta["nama_user"];
-								}
 								?>
 							</h3>
 							<span><img src="images/clock.png" alt="">
@@ -96,14 +94,27 @@ if(@$_SESSION["admin"] || @$_SESSION["user"]) {
 						</span>
 						</div>
 					</div>
-					<div class="ed-opts">
-						<a href="#" title="" class="ed-opts-open"><i class="la la-ellipsis-v"></i></a>
-						<ul class="ed-options">
-							<li><a href="edit-post.php?id=<?php echo $ta["id_pengaduan"]; ?>" title="">Edit</a></li>
-							<li><a href="delete-post.php?id=<?php echo $ta["id_pengaduan"]; ?> "  title="">Delete</a></li>
-					</div>
+					
+					<?php
+						if(@$_SESSION["user"]) {
+						?>
+							<div class="ed-opts" hidden>
+								<a href="#" title="" class="ed-opts-open"><i class="la la-ellipsis-v"></i></a>
+								<ul class="ed-options">
+								<li><a href="edit-post.php?id=<?php echo $ta["id_pengaduan"]; ?>" title="">Edit</a></li>
+								<li><a href="delete-post.php?id=<?php echo $ta["id_pengaduan"]; ?> "  title="">Delete</a></li>
+							</div>
+						<?php } else {?>
+							<div class="ed-opts">							
+								<a href="#" title="" class="ed-opts-open"><i class="la la-ellipsis-v"></i></a>
+								<ul class="ed-options">
+								<li><a href="edit-post.php?id=<?php echo $ta["id_pengaduan"]; ?>" title="">Edit</a></li>
+								li><a href="delete-post.php?id=<?php echo $ta["id_pengaduan"]; ?> "  title="">Delete</a></li>
+							</div>
+						<?php }?>
 				</div>
-				<div class="job_descp">
+
+				<div class="job_descp mb-2">
 					<h3><?php echo $ta["judul_pengaduan"]; ?></h3>
 					<?php 
 					if($ta["gambar_pengaduan"]!=""){
@@ -114,10 +125,14 @@ if(@$_SESSION["admin"] || @$_SESSION["user"]) {
 						echo "";
 					}
 					?>
-					<p><?php echo $ta["isi_pengaduan"] ?>
-					<a href="#" title=""> view more</a></p>
+					<p><?php echo $ta["isi_pengaduan"] ?> </p>
+					<p><a href="tanggapan.php?id=<?php echo $ta["id_pengaduan"]; ?>" title=""> view more</a></p>
 				</div>
-			</div><!--post-bar end-->
+				<div class="ml-3 p-2 mb-2 d-flex align-items-center ">
+					<img src="images/com.png" class="mr-1" height="15px">
+					<p>0</p>
+				</div>
+			</div> <!--post-bar end-->
 		<?php
 			} //penutup while
 		} else {
