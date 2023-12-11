@@ -78,27 +78,157 @@
                             echo "<img src='../img/avatar.png' width='35' height='35'/>";
                         }
 						?>	
-                        <div class="post_comment_sec ml-4">
+                        <div class="post_comment_sec ml-4 mb-5">
                             <form action="" method="POST">
-                                <textarea name="komen"></textarea>
-                                <button type="submit">SEND</button>
+                                <textarea name="komen" placeholder="komentar" ></textarea>
+                                <button type="submit" name="submit" value="submit">SEND</button>
                             </form>
-                            <!-- terakhir disini comment -->
-                        <?php      
+						</div>
+                            <!-- logic comment -->
+							<?php      
                         $tz ='Asia/Jakarta';
                         $dt	= new DateTime("now", new DateTimezone($tz));
-                        $date = $dt->format('Y-m-d G:i:s'); 
-
-                        if(@$_SESSION["admin"]){
+                        $date = $dt->format('Y-m-d G:i:s');
+						
+						if(isset($_POST['submit']) == "submit"){
+                        
+							// admin logic
+						if(@$_SESSION["admin"]){
                         $id_admin = $tampil["id_admin"];
                         $id_pengaduan= $ta['id_pengaduan'];
                         $koment= $_POST['komen'];
                             
-                            
                         $koneksi->query("INSERT INTO tb_tanggapan VALUES('','$id_admin','$id_pengaduan','$koment','$date')");
-                        }
-                        ?>
-                        </div>
+                        
+						}elseif(@$_SESSION["user"]){
+							$id_user = $tampil["id_user"];
+							$id_pengaduan= $ta['id_pengaduan'];
+							$koment= $_POST['komen'];		
+							$koneksi->query("INSERT INTO tb_tanggapan_user VALUES('','$id_user','$id_pengaduan','$koment','$date')");
+							}else{ echo "error"; }
+
+						}?>
+
+
+						<div>
+							<h3>Tanggapan User</h3>
+						</div>
+
+						<!-- tampil koment user -->
+						<?php
+						$a_user = $koneksi->query("SELECT
+						tb_tanggapan_user.id_tanggapan_user,
+						tb_tanggapan_user.id_user,
+						tb_pengaduan.id_pengaduan,
+						tb_user.nama_user,
+						tb_user.foto,
+						tb_tanggapan_user.isi_tanggapan_user,
+						tb_tanggapan_user.tgl_tanggapan_user
+					FROM
+						(
+							tb_tanggapan_user
+						LEFT JOIN tb_pengaduan ON tb_tanggapan_user.id_pengaduan = tb_pengaduan.id_pengaduan
+						RIGHT JOIN tb_user ON tb_tanggapan_user.id_user = tb_user.id_user
+						)
+					WHERE
+						tb_tanggapan_user.id_pengaduan = $id ");
+						$num = $a_user->num_rows;
+						while($tb_user = $a_user->fetch_array()){ ?>
+
+							<div class="post_topbar mb-2">
+							<div class="usy-dt p-3">
+								<?php
+							   if ($ta["foto"] != "") {
+                                echo "<img src='foto/".$tb_user["foto"]."' width='35' height='35'/>";
+							
+                        		}else{
+                            	echo "<img src='../img/avatar.png' width='35' height='35'/>";
+                        		}		
+								?>	
+								<div class="usy-name">
+									<h4 class="mb-1">
+										<?php
+											echo $tb_user["nama_user"];
+										?>
+									</h4>
+									<span>
+										<img src="images/clock.png" alt="">
+										<?php
+										$date = $tb_user["tgl_tanggapan_user"];
+										echo TimeAgo($date, date("Y-m-d H:i:s")); 
+										?>
+									</span>
+									<p class="mt-2"><?php echo $tb_user["isi_tanggapan_user"] ;?></p>
+								</div>
+							</div>
+							<?php if(@$_SESSION["admin"]){ ?>
+							<div class="ed-opts" >
+							<?php }else{ ?>
+							<div class="ed-opts" hidden >
+							<?php } ?>	
+								<a href="#" title="" class="ed-opts-open"><i class="la la-ellipsis-v"></i></a>
+								<ul class="ed-options">	
+								<li><a href="delete-tanggapan.php?id_tanggapan_user=<?php echo $tb_user["id_tanggapan_user"]?>&id= <?php echo $tb_user["id_pengaduan"];?> "  title="">Delete</a></li>
+							</div>
+						</div>
+
+							<?php } ?>
+
+
+
+						<div class="pt-2">
+							<h3>Tanggapan Admin</h3>
+						</div>
+							<!-- tampil koment admin -->
+						<?php
+						$a_admin = $koneksi->query("SELECT  tb_tanggapan.id_tanggapan,
+						tb_tanggapan.id_admin,tb_pengaduan.id_pengaduan,tb_admin.nama_admin,tb_tanggapan.isi_tanggapan,
+						tb_tanggapan.tgl_tanggapan					 
+						FROM(tb_tanggapan LEFT JOIN tb_pengaduan ON tb_tanggapan.id_pengaduan=
+						tb_pengaduan.id_pengaduan
+						 RIGHT JOIN tb_admin on tb_tanggapan.id_admin=tb_admin.id_admin) WHERE tb_tanggapan.id_pengaduan  = $id ");
+						$num = $a_admin->num_rows;
+						while($tb_admin = $a_admin->fetch_array()){ ?>
+
+							<div class="post_topbar">
+							<div class="usy-dt p-3">
+								<?php
+							
+								echo "<img src='../img/avatar.png' width='50' height='50'/>";
+									
+								?>	
+								<div class="usy-name">
+									<h4 class="mb-1">
+										<?php
+											echo $tb_admin["nama_admin"];
+										?>
+									</h4>
+									<span>
+										<img src="images/clock.png" alt="">
+										<?php
+										$date = $tb_admin["tgl_tanggapan"];
+										echo TimeAgo($date, date("Y-m-d H:i:s")); 
+										?>
+									</span>
+									<p class="mt-2"><?php echo $tb_admin["isi_tanggapan"] ;?></p>
+								</div>
+							</div>
+
+							<?php if(@$_SESSION["admin"]){ ?>
+							<div class="ed-opts" >
+							<?php }else{ ?>
+							<div class="ed-opts" hidden >
+							<?php } ?>	
+							
+								<a href="#" title="" class="ed-opts-open"><i class="la la-ellipsis-v"></i></a>
+								<ul class="ed-options">
+								<li><a href="delete-tanggapan.php?id_tanggapan_admin=<?php echo $tb_admin["id_tanggapan"]?>&id= <?php echo $tb_admin["id_pengaduan"];?> "  title="">Delete</a></li>
+							</div>
+						</div>
+
+	
+
+							<?php } ?>
                         </div>
                     </div>
                 </div>
