@@ -20,9 +20,6 @@
 			<h3><?php echo $user["nama_user"]; ?></h3>
 			<span><?php echo $user["pekerjaan"]; ?></span>
 			<ul>
-				<li><a href="#" title="" class="envlp"><img src="images/envelop.png" alt=""></a></li>
-			</ul>
-			<ul>
 				<li>
 				<?php 
 				$follower = @$_SESSION["user"]["kode"];

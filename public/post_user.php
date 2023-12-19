@@ -94,8 +94,28 @@ if(@$_SESSION["user"]){
 						echo "";
 					}
 					?>
-					<p><?php echo $ta["isi_pengaduan"] ?>
-					<a href="#" title=""> view more</a></p>
+					<p><?php echo $ta["isi_pengaduan"] ?></p>
+					<p><a href="tanggapan.php?id=<?php echo $ta["id_pengaduan"]; ?>" title=""> view more</a></p>
+				</div>
+				<div class="ml-3 p-2 mb-2 d-flex align-items-center ">
+					<img src="images/com.png" class="mr-1" height="15px">
+					
+					<!-- total komen -->
+					<?php 
+						$id_pengaduan = $ta['id_pengaduan'];
+						$data1 = $koneksi->query("SELECT COUNT(id_tanggapan_user) as count1 FROM tb_tanggapan_user WHERE id_pengaduan = $id_pengaduan");
+						$data2 = $koneksi->query("SELECT COUNT(id_tanggapan) as count2 FROM tb_tanggapan WHERE id_pengaduan = $id_pengaduan");
+						
+						$row1 = $data1->fetch_assoc();
+						$row2 = $data2->fetch_assoc();
+						
+						$count1 = $row1['count1'];
+						$count2 = $row2['count2'];
+						
+						$total_coment = $count1 + $count2;
+					?>
+
+					<p><?php echo $total_coment ?></p>
 				</div>
 			</div><!--post-bar end-->
 		<?php
