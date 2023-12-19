@@ -130,6 +130,7 @@ if(@$_SESSION["admin"] || @$_SESSION["user"]) {
 				</div>
 				<div class="ml-3 p-2 mb-2 d-flex align-items-center ">
 					<img src="images/com.png" class="mr-1" height="15px">
+					
 					<!-- total komen -->
 					<?php 
 						$id_pengaduan = $ta['id_pengaduan'];

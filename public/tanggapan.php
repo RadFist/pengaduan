@@ -122,6 +122,7 @@
 						tb_pengaduan.id_pengaduan,
 						tb_user.nama_user,
 						tb_user.foto,
+						tb_user.kode,
 						tb_tanggapan_user.isi_tanggapan_user,
 						tb_tanggapan_user.tgl_tanggapan_user
 					FROM
@@ -133,6 +134,9 @@
 					WHERE
 						tb_tanggapan_user.id_pengaduan = $id ");
 						$num = $a_user->num_rows;
+						if(@$_SESSION["user"]){
+						$users = $_SESSION['user']['kode'];
+						}
 						while($tb_user = $a_user->fetch_array()){ ?>
 
 							<div class="post_topbar mb-2">
@@ -163,8 +167,13 @@
 							</div>
 							<?php if(@$_SESSION["admin"]){ ?>
 							<div class="ed-opts" >
-							<?php }else{ ?>
-							<div class="ed-opts" hidden >
+							<?php }else{
+								if($users == $tb_user["kode"]){ ?>
+								<div class="ed-opts">
+								 <?php }else{?>
+								<div class="ed-opts" hidden >
+									
+									<?php }?>
 							<?php } ?>	
 								<a href="#" title="" class="ed-opts-open"><i class="la la-ellipsis-v"></i></a>
 								<ul class="ed-options">	
