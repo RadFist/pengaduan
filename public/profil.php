@@ -66,81 +66,14 @@ if(@$_SESSION["admin"] || @$_SESSION["user"]) {
 							<td><?php echo $tampil2["no_hp"]; ?></td>
 						</tr>
 					</table>
+					<a href="edit_profile.php?kode=<?php echo $kode; ?>" class="alert-link btn btn-primary">update profile</a>
+				
 				</div>
 			</div><!--post-bar end-->
 		</div><!--posts-section end-->
 		<?php 
-			} else {
-		?>
-		<div class="posts-section">
-			<div class="post-bar">
-				<div class="job_descp">
-					<h3 class="mt-3">UPDATE PROFIL</h3>
-					<?php
-					$update = $koneksi->query("SELECT * FROM tb_user WHERE kode='$kode'");
-					$hasil = $update->fetch_array();
-					?>
-					<form action="" method="POST" enctype="multipart/form-data">
-						<div class="form-group">
-							<input type="text" class="form-control" name="kode" value="<?php echo $hasil["kode"]; ?>" readonly>
-						</div>
-						<div class="form-group">
-							<input type="text" class="form-control" name="nama_user" value="<?php echo $hasil["nama_user"]; ?>" placeholder="nama_user">
-						</div>
-						<div class="form-group">
-							<input type="text" class="form-control" name="pekerjaan" value="<?php echo $hasil["pekerjaan"]; ?>" placeholder="pekerjaan">
-						</div>
-						<div class="form-group">
-							<input type="email" class="form-control" name="email" value="<?php echo $hasil["email"]; ?>" placeholder="email">
-						</div>
-						<div class="form-group">
-							<input type="text" class="form-control" name="no_hp" value="<?php echo $hasil["no_hp"]; ?>" placeholder="no_hp">
-						</div>
-						<div class="form-group">
-							<input type="file" name="foto">
-						</div>
-						<div class="form-group">
-							<input type="submit" class="btn btn-primary" name="tombol" value="Update Profil">
-						</div>
-					</form>
-					<?php 
-					if(@$_SESSION["user"]) { 
-						$kode = @$_SESSION["user"]["kode"];
-					}
-                    $nama_user		= @$_POST["nama_user"];
-					$email			= @$_POST["email"];
-					$pekerjaan		= @$_POST["pekerjaan"];
-					$no_hp			= @$_POST["no_hp"];
-
-					$foto			= @$_FILES["foto"]["name"];
-                    $tmp           = @$_FILES["foto"]["tmp_name"];
-                    
-					$directory = "foto/profile/";
-					$tombol	   = @$_POST["tombol"];
-                    
-					if($tombol) {
-						if($nama_user == "" || $email == "" || $pekerjaan == "" ||$no_hp == "" || $foto == "") {
-							echo "input kosong";
-						} else {
-							move_uploaded_file($tmp, $directory.$foto);
-							$update = $koneksi->query("UPDATE tb_user SET 
-								nama_user='$nama_user',pekerjaan='$pekerjaan',email='$email',
-								no_hp='$no_hp',
-								foto ='$foto'  WHERE kode='$kode'"
-							);
-                            if($update) {
-                                echo "Data berhasil di update";
-                                echo "<script>location='index.php';</script>";
-                            } else {
-                                echo "Data gagal di update";
-                            }
-						}
-					}
-					?>
-				</div>
-			</div><!--post-bar end-->
-		</div><!--posts-section end-->
-		<?php 
+			} else{
+				echo "<script>location='edit_profile.php';</script>";
 		 	}
 		}else{ 
 			$kode = @$_SESSION["admin"]["kode"];

@@ -152,10 +152,10 @@ body {
 			if($hitung > 0 ) {
 				echo "email sudah terdaftar";
 			} else {
-				$input = $koneksi->query("INSERT INTO tb_login VALUES('','$kode','$user','$pass1','user','offline','aktif')");
-				$input = $koneksi->query("INSERT INTO tb_user VALUES('','$kode','$nama_user','','$email','')");
+				$input = $koneksi->query("INSERT INTO tb_login ( `kode`, `username`, `password`, `level`, `status`, `proses`) VALUES('$kode','$user','$pass1','user','offline','aktif')");
+				$input = $koneksi->query("INSERT INTO tb_user ( `kode`, `nama_user`, `pekerjaan`, `email`, `no_hp`, `foto`) VALUES('$kode','$nama_user','','$email','','')");
 				if($input) {
-					echo "Register Berhasil";
+					header("location:index.php");
 				} else {
 					echo "Register Gagal";
 				}

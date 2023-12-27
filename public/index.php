@@ -46,7 +46,7 @@ if(@$_SESSION["admin"] || @$_SESSION["user"]) {
 		  </h1>
 		  <p>Untuk mengajukan pelaporan pengaduan silahkan untuk melengkapi data pribadi. </p>
 		  <hr>
-		  <p class="mb-0">silahkan klik link ini <a href="profil.php?=<?php echo $kode; ?>" class="alert-link">profil</a>.</p>
+		  <p class="mb-0">silahkan klik link ini <a href="profil.php?kode=<?php echo $kode; ?>" class="alert-link">profil</a>.</p>
 		</div>
 		<?php
 			}
@@ -108,8 +108,7 @@ if(@$_SESSION["admin"] || @$_SESSION["user"]) {
 							<div class="ed-opts">							
 								<a href="#" title="" class="ed-opts-open"><i class="la la-ellipsis-v"></i></a>
 								<ul class="ed-options">
-								<li><a href="edit-post.php?id=<?php echo $ta["id_pengaduan"]; ?>" title="">Edit</a></li>
-								li><a href="delete-post.php?id=<?php echo $ta["id_pengaduan"]; ?> "  title="">Delete</a></li>
+								<li><a href="delete-post.php?id=<?php echo $ta["id_pengaduan"]; ?> "  title="">Delete</a></li>
 							</div>
 						<?php }?>
 				</div>

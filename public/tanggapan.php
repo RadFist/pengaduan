@@ -98,13 +98,13 @@
                         $id_pengaduan= $ta['id_pengaduan'];
                         $koment= $_POST['komen'];
                             
-                        $koneksi->query("INSERT INTO tb_tanggapan VALUES('','$id_admin','$id_pengaduan','$koment','$date')");
+                        $koneksi->query("INSERT INTO tb_tanggapan (`id_admin`, `id_pengaduan`, `isi_tanggapan`, `tgl_tanggapan`) VALUES('$id_admin','$id_pengaduan','$koment','$date')");
                         
 						}elseif(@$_SESSION["user"]){
 							$id_user = $tampil["id_user"];
 							$id_pengaduan= $ta['id_pengaduan'];
 							$koment= $_POST['komen'];		
-							$koneksi->query("INSERT INTO tb_tanggapan_user VALUES('','$id_user','$id_pengaduan','$koment','$date')");
+							$koneksi->query("INSERT INTO tb_tanggapan_user (`id_user`, `id_pengaduan`, `isi_tanggapan_user`, `tgl_tanggapan_user`) VALUES('$id_user','$id_pengaduan','$koment','$date')");
 							}else{ echo "error"; }
 
 						}?>

@@ -39,9 +39,9 @@ $simpangambar = "foto/";
 
 if($posting) {
 	move_uploaded_file($asalgambar, $simpangambar.$gambar);
-	$data = $koneksi->query("INSERT INTO tb_pengaduan VALUES('','$user','$judul','$deskripsi','$gambar','$date')");
+	$data = $koneksi->query("INSERT INTO tb_pengaduan (`id_user`, `judul_pengaduan`, `isi_pengaduan`, `gambar_pengaduan`, `tgl_pengaduan`) VALUES('$user','$judul','$deskripsi','$gambar','$date')");
 	if($data) {
-		echo "<script>location='#';</script>";
+		echo "<script>location='index.php';</script>";
 	}
 }
 ?>

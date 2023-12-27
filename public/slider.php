@@ -14,7 +14,7 @@
 			if($user['foto']!=""){
 				echo "<img src='foto/profile/".$user['foto']."' alt='' width='57' height='57'>";
 			}else{
-				echo "<img src='foto/profile/wallhaven-mdppp9 copy.jpg' alt='' width='57' height='57'>";				
+				echo "<img src='../img/avatar.png' alt='' width='57' height='57'>";				
 			}
 			?>
 			<h3><?php echo $user["nama_user"]; ?></h3>
@@ -61,7 +61,7 @@
 		$sub = @$_POST["sub"];
 		$unsub = @$_POST["unsub"];
 		if($sub){
-			$relod=$koneksi->query("INSERT INTO tb_user_follow VALUES('','$follower','$id','$date')");
+			$relod=$koneksi->query("INSERT INTO tb_user_follow (`kode`, `following`, `subscribed`) VALUES('$follower','$id','$date')");
 			if($relod){
 				echo"<script>location='index.php';</script>";
 			}
