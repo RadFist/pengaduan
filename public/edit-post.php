@@ -60,21 +60,33 @@ if(@$_SESSION["user"]){
 					$isi_post		= @$_POST["isi_post"];
                     $foto           = @$_FILES["foto"]["name"];
                     $tmp            = @$_FILES["foto"]["tmp_name"];
+                    $foto_sebelum   =  $hasil['gambar_pengaduan'];
+                    $fotocheck = $koneksi->query("SELECT gambar_pengaduan FROM tb_pengaduan WHERE gambar_pengaduan = '$foto_sebelum'");
+                    $fotocheck = $fotocheck->num_rows;
+                  
 
                     $directory = "foto/";
 					$tombol	   = @$_POST["tombol"];
-                    
 					if($tombol) {
                         if($hasil["gambar_pengaduan"]!=""){
+                            if($foto == $hasil['gambar_pengaduan']){
+                            $update = $koneksi->query("UPDATE tb_pengaduan SET 
+							judul_pengaduan='$judul_post',
+                            isi_pengaduan ='$isi_post'
+							WHERE id_pengaduan='$id'"
+						    );
+                            }else{
                             move_uploaded_file($tmp,$directory.$foto);
                             $update = $koneksi->query("UPDATE tb_pengaduan SET 
 							judul_pengaduan='$judul_post',
                             isi_pengaduan ='$isi_post',
                             gambar_pengaduan ='$foto'
 							WHERE id_pengaduan='$id'"
-						);
+						);}
                         if($update) {
+                            if($foto != $hasil['gambar_pengaduan'] || $fotocheck == 1){
                             unlink("foto/".$hasil['gambar_pengaduan']."");
+                            }
                             echo "Postingan berhasil di edit";
                             echo "<script>location='index.php';</script>";
                         } else {

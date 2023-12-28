@@ -130,23 +130,29 @@ body {
 			}
 
 		} else {
-			header("location:login.php?error");
+			echo"
+			<script>
+			document.addEventListener('DOMContentLoaded', function () {
+				const msg = document.getElementById('error_msg');
+				msg.removeAttribute('hidden');
+			});
+			</script>";
 		}
 	}
+
 	?>
+
     <form action="" method="post">
 		<div class="avatar">
 			<img src="img/avatar.png" alt="Avatar">
 		</div>
         <h2 class="text-center">Form login</h2>
 		<!-- logout error handling -->
-		<?php 
-		if(isset($_GET["error"])){ 
-			?>
-		<div class="bg-danger text-white text-center p-2 mb-2">
+	
+		<div class="bg-danger text-white text-center p-2 mb-2" id="error_msg" hidden>
 			EMAIL ATAU PASSWORD SALAH
 		</div>
-		<?php } ?>
+		
 
         <div class="form-group">
         	<input type="text" class="form-control" name="user" placeholder="Username" required="required">
@@ -164,6 +170,7 @@ body {
     </form>
     
     <p class="text-center small">Belum punya akun ? <a href="registrasi.php" class="text-primary">Registrasi</a></p>
+    <p class="text-center small">Akun admin ? <a href="registrasi_admin.php" class="text-primary">Registrasi Admin</a></p>
 </div>
 </body>
 </html>

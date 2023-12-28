@@ -99,30 +99,28 @@ body {
 <div class="login-form">
 	<?php  
 	include "config.php";
-	$query = $koneksi->query("SELECT max(kode) as kodeTerbesar FROM tb_user");
+	$query = $koneksi->query("SELECT max(kode) as kodeTerbesar FROM tb_admin");
 	$data = $query->fetch_array();
-	$kodeUser = $data['kodeTerbesar'];
-	$urutan = (int) substr($kodeUser, 4, 4);
+	$kodeAdmin = $data['kodeTerbesar'];
+	$urutan = (int) substr($kodeAdmin, 4, 4);
 
 	$urutan++;
-	$huruf = "USE-";
-	$kodeUser = $huruf . sprintf("%04s", $urutan);
+	$huruf = "KODE";
+	$kodeAdmin = $huruf . sprintf("%04s", $urutan);
+    
 	?>
     <form action="" method="post">
 		<div class="avatar">
 			<img src="img/avatar.png" alt="Avatar">
 		</div>
-        <h2 class="text-center">Form pendaftaran</h2>
+        <h2 class="text-center">Form pendaftaran Admin</h2>
         <div class="form-group">
-        	<input type="hidden" name="kode" value="<?php echo $kodeUser; ?>">
+        	<input type="hidden" name="kode" value="<?php echo $kodeAdmin; ?>">
         </div>
 		<div class="form-group">
             <input type="text" class="form-control" name="nama_user" placeholder="nama_lengkap" required="required">
         </div>
-        <div class="form-group">
-            <input type="email" class="form-control" name="email" placeholder="email" required="required">
-        </div>
-
+      
 		<div class="form-group">
             <input type="text" class="form-control" name="user" placeholder="username" required="required"> 
         </div>
@@ -139,7 +137,6 @@ body {
     <?php
     $kode			= @$_POST["kode"];
     $nama_user		= @$_POST["nama_user"];
-    $email			= @$_POST["email"];
     $user			= @$_POST["user"];
     $pass1			= md5(@$_POST["pass1"]);
     $pass2			= md5(@$_POST["pass2"]);
@@ -147,19 +144,14 @@ body {
     
     if($tombol) {
     	if($pass1 == $pass2) {
-			$data = $koneksi->query("SELECT * FROM tb_user WHERE email='$email'");
-			$hitung = $data->num_rows;
-			if($hitung > 0 ) {
-				echo "email sudah terdaftar";
-			} else {
-				$input = $koneksi->query("INSERT INTO tb_login ( `kode`, `username`, `password`, `level`, `status`, `proses`) VALUES('$kode','$user','$pass1','user','offline','aktif')");
-				$input = $koneksi->query("INSERT INTO tb_user ( `kode`, `nama_user`, `pekerjaan`, `email`, `no_hp`, `foto`) VALUES('$kode','$nama_user','','$email','','')");
+				$input = $koneksi->query("INSERT INTO tb_login ( `kode`, `username`, `password`, `level`, `status`, `proses`) VALUES('$kode','$user','$pass1','admin','offline','aktif')");
+				$input = $koneksi->query("INSERT INTO tb_admin (`kode`, `nama_admin`) VALUES('$kode','$nama_user')");
 				if($input) {
 					echo "<script>window.location.href = 'index.php';</script>";
 				} else {
-					echo "Register gagal";
+					echo "<script>window.location.href = 'index.php';</script>";
 				}
-			}
+			
 		} else {
 			echo "password tidak sesuai";
 		}
